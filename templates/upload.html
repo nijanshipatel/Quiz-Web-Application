@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Excel file upload</title>
+</head>
+<body>
+    <h2>Upload Excel file for quiz questions</h2>
+    <form action="/uploads" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".xlsx" required>
+        <button type="submit">Upload</button>
+    </form>
+</body>
+</html>

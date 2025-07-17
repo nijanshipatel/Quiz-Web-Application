@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Portal</title>
+    <style>
+        body {
+            background-color: #f0f2f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #333;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .question {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        .option {
+            margin: 10px 0;
+        }
+
+        .option input {
+            margin-right: 10px;
+        }
+
+        .buttons {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            background-color: #3367d6;
+        }
+
+        #timer {
+            font-size: 18px;
+            color: red;
+            margin-top: 10px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="timer">Time Left: <span id="time">30</span> seconds</div>
+
+        <form method="POST" action="/submit_answer">
+    <div class="question">
+        Q{{ index }} of {{ total }}: {{ question }}
+    </div>
+
+    <div class="option">
+        <label><input type="radio" name="answer" value="A" required> {{ option_a }}</label>
+    </div>
+    <div class="option">
+        <label><input type="radio" name="answer" value="B" required> {{ option_b }}</label>
+    </div>
+    <div class="option">
+        <label><input type="radio" name="answer" value="C" required> {{ option_c }}</label>
+    </div>
+    <div class="option">
+        <label><input type="radio" name="answer" value="D" required> {{ option_d }}</label>
+    </div>
+
+    <input type="hidden" name="question_id" value="{{ question_id }}">
+
+    <div class="buttons">
+        {% if not is_first %}
+            <button class="btn" type="submit" formaction="/previous">Previous</button>
+        {% endif %}
+        {% if not is_last %}
+            <button class="btn" type="submit" formaction="/next">Next</button>
+        {% else %}
+            <button class="btn" type="submit">Submit</button>
+        {% endif %}
+    </div>
+</form>
+
+      
+    </div>
+
+    <script>
+        let timeLeft = 30;
+        const timer = document.getElementById('time');
+
+        const countdown = setInterval(() => {
+            timeLeft--;
+            timer.innerText = timeLeft;
+
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                document.forms[0].submit();  // Auto-submit form
+            }
+        }, 1000);
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm Start</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #90c0c6, #c9a8cf);
+            animation: fadeIn 1.5s ease-in;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background-color: #333;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            color: white;
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .nav-buttons a {
+            margin-left: 15px;
+            text-decoration: none;
+            color: white;
+            padding: 8px 16px;
+            border: 1px solid white;
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+
+        .nav-buttons a:hover {
+            background-color: white;
+            color: #333;
+        }
+
+        /* Main Box */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 90vh;
+        }
+
+        .box {
+            background-color: rgb(155, 158, 159);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 16px rgba(94, 91, 91, 0.2);
+            text-align: center;
+            animation: fadeUp 1s ease-in-out;
+        }
+
+        .box h2 {
+            font-size: 28px;
+            color: #333;
+        }
+
+        .box button {
+            padding: 12px 25px;
+            font-size: 25px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .box button:hover {
+            background-color: #161817;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeUp {
+            from {
+                transform: translateY(30px);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <h1>Quiz Portal</h1>
+        <div class="nav-buttons">
+            <a href="/login">Login</a>
+            <a href="/register">Signup</a>
+        </div>
+    </div>
+
+    <!-- Confirmation Box -->
+    <div class="container">
+        <div class="box">
+            <h2>Ready to start your quiz?</h2>
+            {% if session['user_id'] %}
+<form method="POST">
+    <button type="submit">Start Quiz</button>
+</form>
+{% else %}
+<p><strong>Please login to start the quiz.</strong></p>
+{% endif %}
+
+        </div>
+    </div>
+
+</body>
+</html>
