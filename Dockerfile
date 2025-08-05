@@ -1,22 +1,22 @@
-FROM python:3.10-slim
+# Use an official Python runtime as a base image
+FROM python:3.9-slim
 
-# Prevent prompts from apt
-ENV DEBIAN_FRONTEND=noninteractive
+# Set environment variables to avoid buffering
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-# Set working directory in the container
+# Set work directory in container
 WORKDIR /app
 
-# Install system dependencies (optional but can help)
-RUN apt-get update && apt-get install -y gcc libmariadb-dev && apt-get clean
-# Copy all project files into the container
-COPY . /app
+# Copy all files from current directory to container's /app
+COPY . /app/
 
-# Install Python dependencies
-RUN pip install --upgrade pip
+# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose Flask port
+# Expose port 5000 (Flask default)
 EXPOSE 5000
 
 # Run the Flask app
 CMD ["python", "app.py"]
+
