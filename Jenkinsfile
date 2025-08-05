@@ -1,31 +1,46 @@
 pipeline {
     agent any
 
+    environment {
+        IMAGE_NAME = "quiz-app"
+        CONTAINER_NAME = "quiz-app-container"
+    }
+
     stages {
-        stage('Clone') {
+
+        stage('Clone Repository') {
             steps {
-                echo 'Cloning repository...'
-                checkout scm
+                git 'https://github.com/your-username/your-repo-name.git'
             }
         }
-        stage('Install dependencies') {
-            steps {
-                sh '''
-                    python3 -m venv venv
-                    source venv/bin/activate
-                    pip install -r requirements.txt
-                '''
-            }
-        }
+
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t quiz-app:latest .'
+                script {
+                    sh "docker build -t $IMAGE_NAME ."
+                }
             }
         }
-        stage('Done') {
+
+        stage('Stop and Remove Existing Container') {
             steps {
-                echo 'Pipeline complete.'
+                script {
+                    // Stop and remove old container if exists
+                    sh """
+                    docker stop $CONTAINER_NAME || true
+                    docker rm $CONTAINER_NAME || true
+                    """
+                }
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                script {
+                    sh "docker run -d -p 5000:5000 --name $CONTAINER_NAME $IMAGE_NAME"
+                }
             }
         }
     }
 }
+
