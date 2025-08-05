@@ -1,2 +1,5 @@
 Flask
+pandas
 mysql-connector-python
+Werkzeug
+
